@@ -1,0 +1,35 @@
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Python virtual environment
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Test/cache files
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Next.js
+frontend/.next/
+frontend/out/
+
+# Node dependencies
+frontend/node_modules/
+
+# Local/editor files
+.vscode/
+.idea/
+.DS_Store
+
+# ScoutIQ local backups
+*.backup.*
+*.before-*.*
+*.final-working.*
