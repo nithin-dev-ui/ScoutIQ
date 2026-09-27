@@ -130,7 +130,17 @@ export default function Home() {
       setActiveStage(stages.length - 1);
     } catch (err) {
       if (err instanceof Error) {
-        setError(err.message);
+        if (
+          err.message.includes("Rate limit exceeded") ||
+          err.message.includes("too_many_requests") ||
+          err.message.includes("429")
+        ) {
+          setError(
+            "AI reasoning is temporarily unavailable because the Gemini free-tier limit has been reached. ScoutIQ's search and evidence pipeline is still working."
+          );
+        } else {
+          setError(err.message);
+        }
       } else {
         setError(
           "Something went wrong while investigating."
@@ -424,7 +434,7 @@ export default function Home() {
 
                                 <span className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-xs capitalize text-slate-300">
                                   {(trace.query_type || "web").replace(
-                                    /_/g,
+                                    /\_/g,
                                     " "
                                   )}
                                 </span>
