@@ -5,3 +5,4 @@ google-genai
 serpapi
 pydantic
 httpx
+pytest
