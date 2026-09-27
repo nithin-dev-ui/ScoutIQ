@@ -37,81 +37,64 @@ class FakeResearcher:
         return results
 
 
-researcher = FakeResearcher()
-verifier = VerificationAgent()
-comparator = ComparisonAgent()
-gap_analyzer = GapAnalyzerAgent()
+def test_research_loop():
+    researcher = FakeResearcher()
+    verifier = VerificationAgent()
+    comparator = ComparisonAgent()
+    gap_analyzer = GapAnalyzerAgent()
 
-loop = ResearchLoopAgent(
-    researcher=researcher,
-    verifier=verifier,
-    comparator=comparator,
-    gap_analyzer=gap_analyzer
-)
-
-
-question = (
-    "Should students learn Python or JavaScript first "
-    "for AI software careers in 2026?"
-)
-
-
-initial_evidence = [
-    {
-        "title": "Python Documentation",
-        "link": "https://python.org",
-        "snippet": (
-            "Python is widely used in software development."
-        ),
-        "source": "python.org",
-        "query": "Python AI careers",
-        "query_type": "comparison_a",
-        "engine": "google",
-        "position": 1
-    },
-    {
-        "title": "AI Research Paper",
-        "link": "https://arxiv.org/abs/1234.5678",
-        "snippet": (
-            "Artificial intelligence research uses "
-            "multiple programming languages."
-        ),
-        "source": "arxiv.org",
-        "query": "AI programming languages",
-        "query_type": "expert",
-        "engine": "google_scholar",
-        "position": 1
-    }
-]
-
-
-result = loop.run(
-    question=question,
-    initial_evidence=initial_evidence,
-    comparison={
-        "topic_a": "Python",
-        "topic_b": "JavaScript"
-    }
-)
-
-
-print("RESEARCH LOOP TEST PASSED")
-print("Initial evidence:", len(initial_evidence))
-print("Final evidence:", len(result["evidence"]))
-print("Rounds:", len(result["rounds"]))
-print(
-    "Follow-up queries:",
-    result["rounds"][0]["follow_up_queries"]
-)
-print(
-    "Final verified:",
-    len(
-        result["verification"]["verified_evidence"]
+    loop = ResearchLoopAgent(
+        researcher=researcher,
+        verifier=verifier,
+        comparator=comparator,
+        gap_analyzer=gap_analyzer
     )
-)
-print(
-    "Final gaps:",
-    len(
-        result["gap_analysis"]["gaps"]
+
+    question = (
+        "Should students learn Python or JavaScript first "
+        "for AI software careers in 2026?"
     )
-)
+
+    initial_evidence = [
+        {
+            "title": "Python Documentation",
+            "link": "https://python.org",
+            "snippet": (
+                "Python is widely used in software development."
+            ),
+            "source": "python.org",
+            "query": "Python AI careers",
+            "query_type": "comparison_a",
+            "engine": "google",
+            "position": 1
+        },
+        {
+            "title": "AI Research Paper",
+            "link": "https://arxiv.org/abs/1234.5678",
+            "snippet": (
+                "Artificial intelligence research uses "
+                "multiple programming languages."
+            ),
+            "source": "arxiv.org",
+            "query": "AI programming languages",
+            "query_type": "expert",
+            "engine": "google_scholar",
+            "position": 1
+        }
+    ]
+
+    result = loop.run(
+        question=question,
+        initial_evidence=initial_evidence,
+        comparison={
+            "topic_a": "Python",
+            "topic_b": "JavaScript"
+        }
+    )
+
+    assert len(result["evidence"]) >= len(initial_evidence)
+    assert len(result["rounds"]) >= 1
+    assert "verification" in result
+    assert "gap_analysis" in result
+    assert len(result["verification"]["verified_evidence"]) >= 1
+    assert "gaps" in result["gap_analysis"]
