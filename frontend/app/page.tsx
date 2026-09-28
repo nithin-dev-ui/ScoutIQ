@@ -130,11 +130,14 @@ export default function Home() {
       setActiveStage(stages.length - 1);
     } catch (err) {
       if (err instanceof Error) {
-        if (
-          err.message.includes("Rate limit exceeded") ||
-          err.message.includes("too_many_requests") ||
-          err.message.includes("429")
-        ) {
+       if (
+  err.message.includes("Rate limit exceeded") ||
+  err.message.includes("too_many_requests") ||
+  err.message.includes("429") ||
+  err.message.includes("service_unavailable") ||
+  err.message.includes("503") ||
+  err.message.includes("high demand")
+) {
           setError(
             "AI reasoning is temporarily unavailable because the Gemini free-tier limit has been reached. ScoutIQ's search and evidence pipeline is still working."
           );
