@@ -105,7 +105,7 @@ export default function Home() {
 
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/research",
+        "https://scoutiq-backend-5dc6.onrender.com/research",
         {
           method: "POST",
           headers: {
