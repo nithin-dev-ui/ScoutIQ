@@ -23,7 +23,7 @@ class LLMService:
         "YOUR_GEMINI_API_KEY"
     }
 
-    MODEL = "gemini-3.8-flash"
+    MODEL = "gemini-3.7-flash"
 
     def __init__(self):
         self.provider = os.getenv(
